@@ -1,0 +1,53 @@
+
+PHẦN 1: THIẾT KẾ PROMPT 3 THÀNH PHẦN CHUẨN HÓA
+1. Nguyên nhân khiến câu hỏi "AI ơi phần mềm trạm sạc bị hỏng làm sao đây" gây ra 
+   hiện tượng AI Hallucination (Ảo giác AI):
+   - Thiếu ngữ cảnh (Context): Không nêu rõ thiết bị, HĐH Windows 11 hay tác vụ.
+   - Thiếu dữ liệu kỹ thuật (Raw Error): Không cung cấp nguyên văn nhật ký lỗi.
+   - Hậu quả: AI bị thiếu thông tin nên tự "đoán mò" và đưa ra lời khuyên sai lệch 
+     như tháo vỏ trạm sạc kiểm tra dây điện — gây rủi ro an toàn phần cứng.
+2. Cấu trúc Prompt 3 Thành phần hoàn chỉnh dán vào AI:
+[Context]
+Tôi là kỹ sư vận hành hệ thống Kiosk nạp năng lượng thông minh VoltCharge chạy trên 
+hệ điều hành Windows 11 tại Bến xe Miền Đông. Trụ sạc nhanh số 04 đang gặp sự cố 
+dừng hoạt động đột ngột trong ca trực đêm.
+[Raw Error]
+[TERMINAL ERROR LOG - VOLTCHARGE CHARGER #04]
+2026-09-21 21:15:30 [FATAL] ControllerDaemon failed to start.
+System.UnauthorizedAccessException: Access to the path 'C:\Program Files\VoltCharge\data\session.log' is denied.
+   at System.IO.FileStream.ValidateFileHandle(SafeFileHandle handle)
+   at VoltCharge.Core.SessionManager.Initialize()
+InnerException: None. Process terminated with exit code 5 (0x00000005).
+Suggestion: Run the application with elevated administrator privileges or verify NTFS file permissions.
+[Instruction]
+1. Hãy dịch và giải thích nguyên nhân gốc rễ của đoạn mã lỗi trên bằng tiếng Việt 
+   bình dân, dễ hiểu cho kỹ thuật viên mới.
+2. Đưa ra 3 bước khắc phục cụ thể tại chỗ trên Windows 11 để xử lý lỗi quyền truy 
+   cập này và đưa trạm sạc hoạt động trở lại.
+PHẦN 2: GIẢI MÃ LỖI & KỊCH BẢN KHẮC PHỤC
+3. Giải mã lỗi bằng tiếng Việt bình dân:
+   - Bản dịch: "Lỗi truy cập hệ thống: Bị từ chối quyền truy cập vào đường dẫn 
+     tệp session.log tại thư mục Program Files."
+   - Giải thích nguyên nhân gốc rễ: Thư mục C:\Program Files là vùng bảo mật cao 
+     của Windows. Phần mềm VoltCharge khi chạy bằng tài khoản người dùng thường 
+     (Standard User) không có đủ quyền ghi file vào đây, dẫn đến việc bị hệ điều 
+     hành chặn lại (Exit Code 5) và dừng phần mềm ngay lập tức.
+4. 3 bước xử lý sự cố tại chỗ trên Windows 11:
+   - Bước 1: Khởi chạy phần mềm với quyền Quản trị viên (Run as Administrator)
+     + Thao tác: Đóng ứng dụng hiện tại -> Nhấp chuột phải vào biểu tượng phần 
+       mềm VoltCharge -> Chọn "Run as administrator".
+   - Bước 2: Phân quyền nới lỏng thư mục dữ liệu (NTFS File Permissions)
+     + Thao tác: Mở File Explorer theo đường dẫn C:\Program Files\VoltCharge 
+       -> Nhấp chuột phải vào thư mục "data" -> Chọn Properties -> Chuyển sang 
+       tab Security -> Chọn Edit -> Tích chọn "Full control" hoặc "Modify" cho 
+       tài khoản vận hành -> Chọn Apply và OK.
+   - Bước 3: Khởi động lại dịch vụ điều khiển (ControllerDaemon)
+     + Thao tác: Khởi động lại ứng dụng hoặc Windows Service tương ứng -> Kiểm 
+       tra log xem phần mềm đã xuất hiện trạng thái thành công và Kiosk sẵn 
+       sàng phục vụ xe taxi điện.
+5. Xử lý Bẫy an ninh (Bảo mật thông tin):
+   - Thao tác: Kỹ thuật viên BẮT BUỘC phải xóa hoặc thay thế chuỗi API_KEY 
+     bằng ký tự giả lập (ví dụ: API_KEY: [REDACTED]) trước khi dán vào AI.
+   - Lý do: AI công cộng có thể lưu trữ lịch sử chat để huấn luyện mô hình. 
+     Rò rỉ API Key thật sẽ tạo lỗ hổng cho kẻ xấu tấn công hệ thống backend 
+     của toàn bộ mạng lưới trạm sạc VoltCharge.
